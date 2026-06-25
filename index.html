@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>tpay internet services · El TPV que cabe en tu mostrador</title>
+<meta name="description" content="Kit TPV para supermercados: una tablet que cobra y un móvil Android que recibe el pago contactless. Conectados por tu red, sin alquiler de datáfono." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0E1422;
+    --ink-soft:#1A2336;
+    --paper:#EDEFF2;
+    --surface:#FFFFFF;
+    --approved:#0FB678;
+    --approved-deep:#0A8E5E;
+    --signal:#F0A93B;
+    --line:#D7DCE2;
+    --line-soft:#E5E9EE;
+    --muted:#5B6675;
+    --muted-light:#8A93A1;
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --r:14px;
+    --r-lg:22px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --maxw:1160px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  ::selection{background:var(--approved);color:#fff}
+  :focus-visible{outline:2.5px solid var(--approved);outline-offset:3px;border-radius:4px}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:500;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(237,239,242,.82);
+    backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display)}
+  .brand .mark{position:relative;width:26px;height:26px;display:grid;place-items:center;flex:none}
+  .brand .mark svg{width:26px;height:26px}
+  .brand .b-txt{display:flex;flex-direction:column;line-height:1}
+  .brand .b-name{font-weight:700;font-size:1.34rem;letter-spacing:-.02em}
+  .brand .b-name b{color:var(--approved);font-weight:700}
+  .brand .b-sub{font-family:var(--mono);font-weight:400;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:.92rem;color:var(--muted);font-weight:450;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+
+  .btn{
+    font-family:var(--body);font-weight:550;font-size:.94rem;
+    border-radius:999px;padding:11px 20px;cursor:pointer;
+    border:1px solid transparent;transition:transform .15s var(--ease),background .2s,box-shadow .2s;
+    display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--ink-soft);box-shadow:0 8px 24px -10px rgba(14,20,34,.5)}
+  .btn-green{background:var(--approved);color:#fff}
+  .btn-green:hover{background:var(--approved-deep);box-shadow:0 10px 26px -10px rgba(15,182,120,.6)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);background:#fff}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:10px;padding:7px 10px;cursor:pointer}
+  .nav-toggle svg{width:20px;height:20px;stroke:var(--ink)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:72px 0 84px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background-image:radial-gradient(var(--line) 1px,transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 70% at 30% 35%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 80% 70% at 30% 35%,#000 30%,transparent 75%);
+    opacity:.6;
+  }
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+  .hero-copy{max-width:540px}
+  .tag{
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:6px 14px 6px 8px;font-size:.8rem;color:var(--muted);
+    margin-bottom:26px;font-weight:450;
+  }
+  .tag .dot{width:7px;height:7px;border-radius:50%;background:var(--approved);box-shadow:0 0 0 4px rgba(15,182,120,.18)}
+  h1{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(2.5rem,5.4vw,3.85rem);
+    line-height:1.02;letter-spacing:-.035em;margin-bottom:22px;
+  }
+  h1 .hl{color:var(--approved);position:relative;white-space:nowrap}
+  .hero-sub{font-size:1.12rem;color:var(--muted);max-width:470px;margin-bottom:32px}
+  .hero-sub strong{color:var(--ink);font-weight:600}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .from-price{display:flex;flex-direction:column;gap:1px;margin-left:4px}
+  .from-price .lbl{font-size:.74rem;color:var(--muted-light);font-family:var(--mono);letter-spacing:.04em}
+  .from-price .val{font-family:var(--mono);font-weight:700;font-size:1.18rem;color:var(--ink)}
+  .trust{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap}
+  .trust span{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--muted)}
+  .trust svg{width:16px;height:16px;stroke:var(--approved);flex:none}
+
+  /* ---------- Hero device demo (signature) ---------- */
+  .stage{position:relative;height:430px;display:flex;align-items:center;justify-content:center}
+  .demo{position:relative;width:100%;max-width:420px;height:100%}
+
+  .net-path{position:absolute;left:24%;right:30%;top:50%;height:2px;z-index:1;transform:translateY(-30px)}
+  .net-path .line{position:absolute;inset:0;border-top:2px dashed var(--line);}
+  .net-pulse{
+    position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;
+    background:var(--signal);box-shadow:0 0 0 5px rgba(240,169,59,.22);opacity:0;
+  }
+  .demo.run .net-pulse{animation:travel 6s linear infinite}
+  @keyframes travel{
+    0%,18%{left:0;opacity:0;transform:scale(.6)}
+    22%{opacity:1;transform:scale(1)}
+    34%{left:100%;opacity:1;transform:scale(1)}
+    38%,100%{left:100%;opacity:0;transform:scale(.6)}
+  }
+
+  /* Tablet (cashier) */
+  .tablet{
+    position:absolute;left:0;bottom:34px;width:208px;height:262px;
+    background:var(--ink);border-radius:20px;padding:9px;
+    box-shadow:0 30px 60px -28px rgba(14,20,34,.55);
+    border:1px solid #222b41;z-index:2;
+  }
+  .tablet .screen{background:#0a0f1a;border-radius:12px;height:100%;padding:14px;display:flex;flex-direction:column;color:#fff}
+  .tablet .sc-top{display:flex;justify-content:space-between;align-items:center;font-size:.62rem;color:#7d8aa3;font-family:var(--mono)}
+  .cart-line{display:flex;justify-content:space-between;font-size:.72rem;color:#aeb8cc;padding:7px 0;border-bottom:1px solid #1b2438}
+  .cart-line.tot{color:#fff;font-weight:600;border:none;margin-top:auto;padding-top:10px;align-items:baseline}
+  .cart-line.tot .v{font-family:var(--mono);font-size:1.18rem;font-weight:700}
+  .cobrar{
+    margin-top:10px;background:var(--approved);color:#fff;border:none;border-radius:9px;
+    padding:9px;font-family:var(--body);font-weight:600;font-size:.8rem;text-align:center;
+    transition:filter .2s;
+  }
+  .demo.run .cobrar{animation:pressBtn 6s var(--ease) infinite}
+  @keyframes pressBtn{
+    0%,10%{filter:brightness(1);transform:scale(1)}
+    13%{filter:brightness(1.18);transform:scale(.96)}
+    18%,100%{filter:brightness(.78);transform:scale(1)}
+  }
+  .tablet .lbl-dev{position:absolute;top:-26px;left:4px;font-family:var(--mono);font-size:.64rem;color:var(--muted);letter-spacing:.05em}
+
+  /* Phone (terminal) */
+  .phone{
+    position:absolute;right:0;top:8px;width:178px;height:354px;
+    background:var(--ink);border-radius:30px;padding:8px;
+    box-shadow:0 40px 70px -26px rgba(14,20,34,.6);border:1px solid #222b41;z-index:3;
+  }
+  .phone .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:46px;height:5px;border-radius:99px;background:#2a3650;z-index:4}
+  .phone .screen{background:#0a0f1a;border-radius:24px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;position:relative;padding:18px}
+  .phone .lbl-dev{position:absolute;top:-26px;right:4px;font-family:var(--mono);font-size:.64rem;color:var(--muted);letter-spacing:.05em}
+
+  .pay-amount{font-family:var(--mono);font-weight:700;font-size:1.9rem;letter-spacing:-.02em}
+  .pay-hint{font-size:.74rem;color:#8a96ad;margin-top:6px;text-align:center}
+
+  /* contactless waves */
+  .waves{position:relative;width:84px;height:84px;margin:18px 0 6px;display:grid;place-items:center}
+  .waves .nfc{width:30px;height:30px;stroke:#fff;opacity:.9}
+  .ring{position:absolute;border:2px solid var(--approved);border-radius:50%;width:40px;height:40px;opacity:0}
+  .demo.run .pay-state .ring{animation:ripple 2s ease-out infinite}
+  .demo.run .pay-state .ring:nth-child(2){animation-delay:.5s}
+  .demo.run .pay-state .ring:nth-child(3){animation-delay:1s}
+  @keyframes ripple{
+    0%{width:34px;height:34px;opacity:.0}
+    20%{opacity:.8}
+    100%{width:96px;height:96px;opacity:0}
+  }
+
+  /* phone state machine via opacity timing */
+  .pay-idle,.pay-state,.pay-ok{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center}
+  .pay-idle{color:#5e6a82}
+  .pay-idle .z{width:42px;height:42px;border-radius:50%;border:1.5px dashed #38445f;display:grid;place-items:center;margin-bottom:12px}
+  .pay-idle .z svg{width:20px;height:20px;stroke:#5e6a82}
+  .pay-ok .check{width:62px;height:62px;border-radius:50%;background:var(--approved);display:grid;place-items:center;margin-bottom:14px;box-shadow:0 0 0 0 rgba(15,182,120,.4)}
+  .pay-ok .check svg{width:30px;height:30px;stroke:#fff;stroke-width:3}
+  .pay-ok .ok-t{font-weight:600;font-size:1.05rem}
+  .pay-ok .ok-a{font-family:var(--mono);color:var(--approved);font-weight:700;margin-top:2px}
+
+  .demo:not(.run) .pay-idle,.demo:not(.run) .pay-state{opacity:0}
+  .demo:not(.run) .pay-ok{opacity:1}
+  .demo.run .pay-idle{animation:fIdle 6s linear infinite}
+  .demo.run .pay-state{animation:fState 6s linear infinite}
+  .demo.run .pay-ok{animation:fOk 6s linear infinite}
+  @keyframes fIdle{0%,30%{opacity:1}36%,100%{opacity:0}}
+  @keyframes fState{0%,33%{opacity:0}40%,66%{opacity:1}72%,100%{opacity:0}}
+  @keyframes fOk{0%,68%{opacity:0}74%{opacity:1;transform:scale(1.04)}80%,96%{opacity:1;transform:scale(1)}100%{opacity:0}}
+
+  /* ---------- Logos / reassurance strip ---------- */
+  .strip{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:var(--surface)}
+  .strip .wrap{display:flex;align-items:center;justify-content:space-between;gap:30px;padding-top:20px;padding-bottom:20px;flex-wrap:wrap}
+  .strip p{font-size:.84rem;color:var(--muted);font-family:var(--mono);letter-spacing:.02em}
+  .strip .items{display:flex;gap:34px;flex-wrap:wrap}
+  .strip .items span{font-size:.9rem;color:var(--ink-soft);font-weight:500;display:flex;align-items:center;gap:8px}
+  .strip .items svg{width:17px;height:17px;stroke:var(--ink);flex:none}
+
+  /* ---------- Sections ---------- */
+  section{position:relative}
+  .sec{padding:96px 0}
+  .sec-head{max-width:620px;margin-bottom:54px}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(1.9rem,3.4vw,2.65rem);letter-spacing:-.03em;line-height:1.08;margin:14px 0 16px}
+  .sec-head p{color:var(--muted);font-size:1.05rem}
+
+  /* How it works — two modes */
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .mode{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:32px;position:relative;overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s;
+  }
+  .mode:hover{transform:translateY(-4px);box-shadow:0 24px 50px -30px rgba(14,20,34,.35)}
+  .mode .num{font-family:var(--mono);font-size:.78rem;color:var(--approved);font-weight:700;letter-spacing:.1em}
+  .mode h3{font-family:var(--display);font-weight:600;font-size:1.4rem;letter-spacing:-.02em;margin:8px 0 10px}
+  .mode p{color:var(--muted);font-size:.96rem;margin-bottom:22px}
+  .mode .diagram{
+    background:linear-gradient(180deg,#f4f6f9,#eef1f5);border:1px solid var(--line-soft);
+    border-radius:14px;height:148px;display:flex;align-items:center;justify-content:center;gap:18px;position:relative;
+  }
+  .chip{display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+  .chip .box{
+    width:60px;height:72px;border-radius:10px;background:var(--ink);display:grid;place-items:center;
+    box-shadow:0 12px 24px -14px rgba(14,20,34,.6);
+  }
+  .chip.tab .box{width:78px;height:60px}
+  .chip .box svg{width:26px;height:26px;stroke:#fff}
+  .chip small{font-size:.7rem;color:var(--muted);font-family:var(--mono)}
+  .link-anim{position:relative;width:64px;height:2px;background:repeating-linear-gradient(90deg,var(--approved) 0 6px,transparent 6px 12px);align-self:center}
+  .link-anim::after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:var(--signal);animation:slide 2.4s linear infinite}
+  @keyframes slide{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+  .reader{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .reader .usb{width:26px;height:42px;border-radius:6px;border:2px solid var(--approved);display:grid;place-items:center}
+  .reader .usb svg{width:14px;height:14px;stroke:var(--approved)}
+
+  /* What's included */
+  .kit{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .kit-list{display:flex;flex-direction:column;gap:2px}
+  .kit-item{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start}
+  .kit-item:last-child{border-bottom:none}
+  .kit-item .ic{width:44px;height:44px;border-radius:11px;background:#eaf6f0;display:grid;place-items:center;flex:none}
+  .kit-item .ic svg{width:21px;height:21px;stroke:var(--approved-deep)}
+  .kit-item h4{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-bottom:3px;letter-spacing:-.01em}
+  .kit-item p{font-size:.9rem;color:var(--muted)}
+  .kit-visual{
+    background:var(--ink);border-radius:var(--r-lg);padding:40px;color:#fff;position:relative;overflow:hidden;
+    min-height:330px;display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .kit-visual::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 70% 20%,rgba(15,182,120,.22),transparent 55%);
+  }
+  .kit-visual .kv-eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--approved);position:relative}
+  .kit-visual h3{font-family:var(--display);font-weight:600;font-size:1.7rem;line-height:1.1;margin:12px 0;letter-spacing:-.02em;position:relative}
+  .kit-visual p{color:#aeb8cc;font-size:.95rem;position:relative;max-width:330px}
+  .kv-devices{position:absolute;top:34px;right:34px;display:flex;gap:12px;opacity:.92}
+  .kv-devices .d{background:#1a2336;border:1px solid #2a3650;border-radius:10px}
+  .kv-devices .d.p{width:46px;height:92px;border-radius:13px}
+  .kv-devices .d.t{width:74px;height:56px;align-self:flex-start}
+  .kv-devices .d.r{width:24px;height:40px;align-self:center;border-color:var(--approved)}
+
+  /* Why / benefits */
+  .why{background:var(--surface);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .ben{padding:28px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);transition:border-color .2s}
+  .ben:hover{border-color:var(--approved)}
+  .ben .ic{width:40px;height:40px;border-radius:10px;background:var(--ink);display:grid;place-items:center;margin-bottom:16px}
+  .ben .ic svg{width:19px;height:19px;stroke:var(--approved)}
+  .ben h4{font-family:var(--display);font-weight:600;font-size:1.12rem;margin-bottom:7px;letter-spacing:-.01em}
+  .ben p{font-size:.92rem;color:var(--muted)}
+
+  /* Pricing */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+  .tier{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:32px 30px;display:flex;flex-direction:column;position:relative;transition:transform .25s var(--ease),box-shadow .25s;
+  }
+  .tier:hover{transform:translateY(-5px);box-shadow:0 28px 56px -32px rgba(14,20,34,.4)}
+  .tier.feat{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tier .badge{position:absolute;top:18px;right:20px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;background:var(--approved);color:#fff;padding:4px 10px;border-radius:99px;font-weight:700}
+  .tier .t-name{font-family:var(--display);font-weight:600;font-size:1.25rem;letter-spacing:-.01em}
+  .tier .t-desc{font-size:.88rem;color:var(--muted);margin:6px 0 22px;min-height:38px}
+  .tier.feat .t-desc{color:#9aa6bd}
+  .price{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
+  .price .cur{font-family:var(--mono);font-size:1rem;color:var(--muted)}
+  .tier.feat .price .cur{color:#9aa6bd}
+  .price .amt{font-family:var(--mono);font-weight:700;font-size:2.5rem;letter-spacing:-.03em}
+  .price-note{font-size:.78rem;color:var(--muted-light);font-family:var(--mono);margin-bottom:24px}
+  .tier.feat .price-note{color:#7d8aa3}
+  .t-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
+  .t-feats li{font-size:.9rem;display:flex;gap:10px;align-items:flex-start;color:var(--ink-soft)}
+  .tier.feat .t-feats li{color:#cdd5e2}
+  .t-feats svg{width:16px;height:16px;stroke:var(--approved);flex:none;margin-top:3px}
+  .tier .btn{width:100%;justify-content:center}
+
+  /* Specs */
+  .specs{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .spec-row{display:grid;grid-template-columns:230px 1fr;gap:20px;padding:18px 30px;border-bottom:1px solid var(--line-soft)}
+  .spec-row:last-child{border-bottom:none}
+  .spec-row .k{font-family:var(--mono);font-size:.84rem;color:var(--muted);letter-spacing:.02em}
+  .spec-row .v{font-size:.94rem;color:var(--ink-soft)}
+
+  /* FAQ */
+  .faq-list{max-width:760px;margin:0 auto}
+  details{border-bottom:1px solid var(--line);padding:6px 0}
+  summary{
+    list-style:none;cursor:pointer;padding:18px 4px;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    font-family:var(--display);font-weight:500;font-size:1.08rem;letter-spacing:-.01em;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary .plus{flex:none;width:24px;height:24px;position:relative;transition:transform .25s var(--ease)}
+  summary .plus::before,summary .plus::after{content:"";position:absolute;background:var(--approved);border-radius:2px}
+  summary .plus::before{top:11px;left:3px;width:18px;height:2px}
+  summary .plus::after{top:3px;left:11px;width:2px;height:18px;transition:transform .25s var(--ease)}
+  details[open] summary .plus{transform:rotate(90deg)}
+  details[open] summary .plus::after{transform:scaleY(0)}
+  details .ans{padding:0 4px 20px;color:var(--muted);font-size:.96rem;max-width:660px}
+
+  /* CTA band */
+  .cta-band{padding:88px 0}
+  .cta-card{
+    background:var(--ink);border-radius:28px;padding:64px 56px;text-align:center;position:relative;overflow:hidden;
+  }
+  .cta-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -10%,rgba(15,182,120,.28),transparent 60%)}
+  .cta-card h2{color:#fff;position:relative}
+  .cta-card p{color:#aeb8cc;max-width:480px;margin:14px auto 30px;position:relative;font-size:1.05rem}
+  .cta-card .hero-actions{justify-content:center;position:relative}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line-soft);background:var(--surface);padding:54px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+  .foot-brand .brand{margin-bottom:14px}
+  .foot-brand p{font-size:.9rem;color:var(--muted);max-width:260px}
+  .foot-col h5{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-light);margin-bottom:16px}
+  .foot-col a{display:block;font-size:.9rem;color:var(--muted);padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bottom{border-top:1px solid var(--line-soft);padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted-light);font-family:var(--mono)}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:920px){
+    .nav-links{display:none}
+    .nav-cta .btn-ghost{display:none}
+    .nav-toggle{display:inline-flex}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .stage{height:400px;order:2}
+    .kit{grid-template-columns:1fr;gap:32px}
+    .bgrid{grid-template-columns:1fr 1fr}
+    .tiers{grid-template-columns:1fr;max-width:440px;margin:0 auto}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:600px){
+    .wrap{padding:0 18px}
+    .sec{padding:68px 0}
+    .modes{grid-template-columns:1fr}
+    .bgrid{grid-template-columns:1fr}
+    .spec-row{grid-template-columns:1fr;gap:4px;padding:16px 20px}
+    .cta-card{padding:46px 24px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .trust{gap:14px}
+    .demo{max-width:340px}
+    .tablet{width:178px;height:228px}
+    .phone{width:152px;height:300px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+    .demo .pay-idle,.demo .pay-state{opacity:0!important}
+    .demo .pay-ok{opacity:1!important}
+    .net-pulse{opacity:0!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav class="nav">
+      <a href="#" class="brand" aria-label="tpay internet services, inicio">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 12a5 5 0 0 1 5-5" stroke="#0FB678" stroke-width="2" stroke-linecap="round"/>
+            <path d="M5.5 16a8 8 0 0 1 8-8" stroke="#0FB678" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+            <circle cx="8" cy="15" r="2.4" fill="#0E1422"/>
+          </svg>
+        </span>
+        <span class="b-txt">
+          <span class="b-name">tpay<b>.</b></span>
+          <span class="b-sub">internet services</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="#como">Cómo funciona</a>
+        <a href="#kit">El kit</a>
+        <a href="#precios">Precios</a>
+        <a href="#specs">Ficha técnica</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#precios" class="btn btn-ghost">Ver precios</a>
+        <a href="#precios" class="btn btn-primary">Pedir el kit</a>
+        <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('.nav-links').style.display = (getComputedStyle(document.querySelector('.nav-links')).display==='none'?'flex':'none')">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="tag"><span class="dot"></span> Cobra con tarjeta sin alquilar un datáfono</span>
+        <h1>Tu supermercado cobra <span class="hl">en un toque</span>.</h1>
+        <p class="hero-sub">La <strong>tablet</strong> de caja envía el importe al <strong>móvil Android</strong>, y el cliente paga acercando la tarjeta. O cobra directamente en un solo dispositivo con el <strong>lector USB NFC</strong>. Todo por tu propia red, sin línea telefónica.</p>
+        <div class="hero-actions">
+          <a href="#precios" class="btn btn-green">Pedir el kit</a>
+          <a href="#como" class="btn btn-ghost">Ver cómo funciona</a>
+          <div class="from-price">
+            <span class="lbl">desde</span>
+            <span class="val">199 €</span>
+          </div>
+        </div>
+        <div class="trust">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Contactless y chip</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Funciona por WiFi/LAN</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Sin cuotas de alquiler</span>
+        </div>
+      </div>
+
+      <!-- Signature: live device handoff demo -->
+      <div class="stage">
+        <div class="demo run" id="demo">
+          <div class="net-path"><span class="line"></span><span class="net-pulse"></span></div>
+
+          <!-- Tablet = caja -->
+          <div class="tablet">
+            <span class="lbl-dev">tablet · caja</span>
+            <div class="screen">
+              <div class="sc-top"><span>Caja 1</span><span>14:08</span></div>
+              <div class="cart-line"><span>Leche desnatada ×2</span><span class="mono">2,30</span></div>
+              <div class="cart-line"><span>Pan de pueblo</span><span class="mono">1,15</span></div>
+              <div class="cart-line"><span>Aceite de oliva 1L</span><span class="mono">8,90</span></div>
+              <div class="cart-line tot"><span>Total</span><span class="v">12,45 €</span></div>
+              <div class="cobrar">Cobrar con tarjeta →</div>
+            </div>
+          </div>
+
+          <!-- Phone = datáfono -->
+          <div class="phone">
+            <span class="notch"></span>
+            <span class="lbl-dev">móvil · datáfono</span>
+            <div class="screen">
+              <!-- idle -->
+              <div class="pay-idle">
+                <div class="z"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+                <span style="font-size:.78rem">Esperando importe…</span>
+              </div>
+              <!-- waiting for tap -->
+              <div class="pay-state">
+                <div class="pay-amount">12,45 €</div>
+                <div class="waves">
+                  <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+                  <svg class="nfc" viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M5 8.5a9 9 0 0 1 0 7M9 6a13 13 0 0 1 0 12M13 4a17 17 0 0 1 0 16"/></svg>
+                </div>
+                <div class="pay-hint">Acerca la tarjeta o el móvil</div>
+              </div>
+              <!-- approved -->
+              <div class="pay-ok">
+                <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <div class="ok-t">Pago aceptado</div>
+                <div class="ok-a mono">12,45 €</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <p>UN KIT · DOS FORMAS DE COBRAR</p>
+    <div class="items">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="14" height="11" rx="2"/><path d="M17 10h2a2 2 0 0 1 2 2v3"/></svg> Android 10+</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M5 12.5a9 9 0 0 1 14 0M8 16a5 5 0 0 1 8 0M12 19h.01"/></svg> WiFi y Ethernet</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M9 17V7l8 5-8 5Z"/><circle cx="12" cy="12" r="9"/></svg> NFC + lector USB</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/></svg> Pago seguro EMV</span>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="como">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>Dos modos de cobro, un mismo kit.</h2>
+      <p>Monta el TPV como mejor encaje en tu mostrador: dos dispositivos repartiendo el trabajo, o todo en uno con el lector USB.</p>
+    </div>
+
+    <div class="modes">
+      <div class="mode">
+        <span class="num">MODO 01</span>
+        <h3>Caja y datáfono en red</h3>
+        <p>La tablet hace de caja y registra la compra. Al pulsar «Cobrar», envía el importe por la red al móvil, que se queda fijo de cara al cliente para que acerque la tarjeta.</p>
+        <div class="diagram">
+          <div class="chip tab">
+            <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 19h10" stroke-linecap="round"/></svg></div>
+            <small>tablet · caja</small>
+          </div>
+          <div class="link-anim" aria-hidden="true"></div>
+          <div class="chip">
+            <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2" stroke-linecap="round"/></svg></div>
+            <small>móvil · NFC</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="mode">
+        <span class="num">MODO 02</span>
+        <h3>Todo en uno con lector USB</h3>
+        <p>¿Mostrador pequeño o cobro al vuelo? Conecta el lector USB NFC a un solo dispositivo Android y cobra directamente, sin segundo terminal.</p>
+        <div class="diagram">
+          <div class="chip">
+            <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2" stroke-linecap="round"/></svg></div>
+            <small>móvil o tablet</small>
+          </div>
+          <div class="link-anim" aria-hidden="true" style="width:40px"></div>
+          <div class="reader">
+            <div class="usb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v14M12 16l-3-3M12 16l3-3M9 20h6"/></svg></div>
+            <small style="font-size:.66rem">lector USB NFC</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="sec" id="kit" style="padding-top:0">
+  <div class="wrap">
+    <div class="kit">
+      <div>
+        <div class="sec-head" style="margin-bottom:30px">
+          <span class="eyebrow">El kit</span>
+          <h2>Qué llega en la caja.</h2>
+          <p>Listo para cobrar el primer día. Lo enchufas, abres la app y empiezas.</p>
+        </div>
+        <div class="kit-list">
+          <div class="kit-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 19h10" stroke-linecap="round"/></svg></span>
+            <div><h4>Tablet Android de caja</h4><p>Pantalla amplia para el carrito, el catálogo y el total. Hace de punto de venta.</p></div>
+          </div>
+          <div class="kit-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2" stroke-linecap="round"/></svg></span>
+            <div><h4>Móvil Android con NFC</h4><p>El datáfono. Recibe el importe de la tablet y cobra contactless o por chip.</p></div>
+          </div>
+          <div class="kit-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><path d="M12 2v14M9 13l3 3 3-3M9 20h6"/></svg></span>
+            <div><h4>Lector USB NFC</h4><p>Para cobrar en un solo dispositivo. Se conecta por USB-C, sin emparejar nada.</p></div>
+          </div>
+          <div class="kit-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><path d="M5 8.5a9 9 0 0 1 0 7M9 6a13 13 0 0 1 0 12M13 4a17 17 0 0 1 0 16"/></svg></span>
+            <div><h4>App tpay, preinstalada</h4><p>Caja, cobro y emparejado por red. Sincroniza los dos dispositivos al encenderlos.</p></div>
+          </div>
+          <div class="kit-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M6 7l1.5 12h9L18 7M9 11v5M15 11v5"/></svg></span>
+            <div><h4>Soportes y cables</h4><p>Base para el móvil de cara al cliente, cable de carga y guía rápida de instalación.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kit-visual">
+        <div class="kv-devices" aria-hidden="true">
+          <span class="d t"></span><span class="d p"></span><span class="d r"></span>
+        </div>
+        <span class="kv-eyebrow">Plug &amp; charge</span>
+        <h3>Del cartón al mostrador en 10 minutos.</h3>
+        <p>Conecta los dispositivos a tu WiFi, se reconocen entre sí y ya estás cobrando. Sin instalador, sin obra, sin línea de teléfono.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec why">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Por qué tpay</span>
+      <h2>Pensado para el ritmo de un super.</h2>
+      <p>Caja rápida, hardware que aguanta el día y cero sorpresas a fin de mes.</p>
+    </div>
+    <div class="bgrid">
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span>
+        <h4>Cobro en segundos</h4>
+        <p>El importe salta de la caja al datáfono en cuanto pulsas «Cobrar». El cliente acerca la tarjeta y listo.</p>
+      </div>
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M5 12.5a9 9 0 0 1 14 0M8 16a5 5 0 0 1 8 0M12 19h.01"/></svg></span>
+        <h4>Usa tu red</h4>
+        <p>Funciona por WiFi o cable sobre tu propia conexión. Sin SIM dedicada ni línea telefónica extra.</p>
+      </div>
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h12l-1 7H7L6 3ZM4 21h16M9 14h6M12 10v4"/></svg></span>
+        <h4>Sin alquiler de datáfono</h4>
+        <p>El hardware es tuyo desde el primer día. Compras el kit una vez y se acabaron las cuotas de terminal.</p>
+      </div>
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h4>Pago seguro EMV</h4>
+        <p>Contactless, chip y los estándares de cifrado de la tarjeta. La app no guarda datos sensibles del cliente.</p>
+      </div>
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M6 7l1.5 12h9L18 7M9 11v5M15 11v5"/></svg></span>
+        <h4>Adáptalo a tu caja</h4>
+        <p>Dos dispositivos para tu mostrador fijo o todo en uno con el lector USB. El mismo kit, dos montajes.</p>
+      </div>
+      <div class="ben">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg></span>
+        <h4>Soporte cercano</h4>
+        <p>Configuración inicial y soporte técnico en castellano. Si algo falla, hablas con personas, no con un bot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec" id="precios">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Precios</span>
+      <h2>Elige tu montaje.</h2>
+      <p>Pago único por el kit. IVA no incluido. La aceptación de tarjeta se contrata con tu proveedor de pagos.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="t-name">Solo</div>
+        <p class="t-desc">Un dispositivo y el lector USB. Para cobrar al vuelo.</p>
+        <div class="price"><span class="cur">€</span><span class="amt">199</span></div>
+        <div class="price-note">pago único · sin cuotas</div>
+        <ul class="t-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> 1× móvil Android con NFC</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Lector USB NFC</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> App tpay preinstalada</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Cable y soporte básico</li>
+        </ul>
+        <a href="#contacto" class="btn btn-ghost">Elegir Solo</a>
+      </div>
+
+      <div class="tier feat">
+        <span class="badge">Más vendido</span>
+        <div class="t-name">Dúo</div>
+        <p class="t-desc">Tablet de caja y móvil datáfono, conectados por red.</p>
+        <div class="price"><span class="cur">€</span><span class="amt">349</span></div>
+        <div class="price-note">pago único · sin cuotas</div>
+        <ul class="t-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> 1× tablet Android de caja</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> 1× móvil Android con NFC</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Lector USB NFC incluido</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Emparejado por red automático</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Soporte de cliente y base</li>
+        </ul>
+        <a href="#contacto" class="btn btn-green">Elegir Dúo</a>
+      </div>
+
+      <div class="tier">
+        <div class="t-name">Pro</div>
+        <p class="t-desc">El Dúo completo más accesorios de mostrador e impresión.</p>
+        <div class="price"><span class="cur">€</span><span class="amt">499</span></div>
+        <div class="price-note">pago único · sin cuotas</div>
+        <ul class="t-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Todo lo del kit Dúo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Impresora de tickets</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Base de carga doble</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Configuración remota incluida</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Soporte prioritario 1 año</li>
+        </ul>
+        <a href="#contacto" class="btn btn-ghost">Elegir Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="sec" id="specs" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Ficha técnica</span>
+      <h2>Lo que hay debajo.</h2>
+    </div>
+    <div class="specs">
+      <div class="spec-row"><span class="k">sistema</span><span class="v">Android 10 o superior en ambos dispositivos</span></div>
+      <div class="spec-row"><span class="k">conectividad</span><span class="v">WiFi 802.11 a/b/g/n/ac · Ethernet (con adaptador) · Bluetooth 5.0</span></div>
+      <div class="spec-row"><span class="k">cobro contactless</span><span class="v">NFC integrado en el móvil + lector USB-C NFC externo</span></div>
+      <div class="spec-row"><span class="k">métodos de pago</span><span class="v">Tarjeta contactless, chip EMV, wallets móviles (Apple Pay / Google Pay)</span></div>
+      <div class="spec-row"><span class="k">comunicación entre equipos</span><span class="v">Mensajería local cifrada sobre tu red (LAN/WiFi), sin pasar por internet</span></div>
+      <div class="spec-row"><span class="k">seguridad</span><span class="v">EMV Level 1/2, cifrado punto a punto del proveedor de pagos, sin almacenar PAN</span></div>
+      <div class="spec-row"><span class="k">impresión</span><span class="v">Ticket digital por defecto · impresora térmica USB/Bluetooth (kit Pro)</span></div>
+      <div class="spec-row"><span class="k">alimentación</span><span class="v">USB-C · autonomía de jornada completa · base de carga en kits Dúo y Pro</span></div>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted-light);margin-top:18px;font-family:var(--mono)">* Especificaciones orientativas. El modelo concreto de tablet, móvil y lector puede variar según stock y región.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec why" id="faq">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Antes de pedirlo.</h2>
+    </div>
+    <div class="faq-list">
+      <details open>
+        <summary>¿Necesito internet para cobrar?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">La caja y el datáfono se comunican por tu red local, así que el importe viaja entre dispositivos aunque internet vaya lento. Para autorizar el pago con tarjeta sí hace falta conexión con tu proveedor de pagos, igual que en cualquier datáfono.</div>
+      </details>
+      <details>
+        <summary>¿Cómo se conectan la tablet y el móvil?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">Al encenderlos, la app tpay empareja los dos equipos en la misma red WiFi o LAN. A partir de ahí, cada vez que pulsas «Cobrar» en la tablet, el importe llega al móvil al instante para que el cliente acerque la tarjeta.</div>
+      </details>
+      <details>
+        <summary>¿Puedo usar solo un dispositivo?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">Sí. Con el lector USB NFC conectas un único móvil o tablet y cobras directamente, sin segundo terminal. Es el modo ideal para mostradores pequeños, mercadillos o cobro a pie de pasillo.</div>
+      </details>
+      <details>
+        <summary>¿Quién procesa los pagos con tarjeta?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">El kit es el hardware y la app de cobro. La aceptación y liquidación de las tarjetas se hace a través de tu proveedor de pagos o banco. Te ayudamos a integrarlo con el que ya uses o a elegir uno.</div>
+      </details>
+      <details>
+        <summary>¿Qué pasa si se me estropea un equipo?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">Los kits incluyen garantía del hardware. En los planes Dúo y Pro añadimos soporte para resolver incidencias por remoto y, si hace falta, sustitución del dispositivo afectado.</div>
+      </details>
+      <details>
+        <summary>¿Sirve para varias cajas?<span class="plus" aria-hidden="true"></span></summary>
+        <div class="ans">Sí. Puedes desplegar varios kits en el mismo super y cada caja trabaja de forma independiente sobre la misma red. Cuéntanos cuántas cajas tienes y preparamos un presupuesto a medida.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="contacto">
+  <div class="wrap">
+    <div class="cta-card">
+      <h2>Empieza a cobrar en un toque.</h2>
+      <p>Dinos cuántas cajas tienes y te preparamos el kit listo para enchufar. Envío a toda España.</p>
+      <div class="hero-actions">
+        <a href="mailto:hola@tpay.example?subject=Quiero%20el%20kit%20TPV%20de%20tpay" class="btn btn-green">Pedir mi kit</a>
+        <a href="tel:+34000000000" class="btn btn-ghost" style="color:#fff;border-color:#2a3650">Hablar con ventas</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="brand">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 12a5 5 0 0 1 5-5" stroke="#0FB678" stroke-width="2" stroke-linecap="round"/>
+              <path d="M5.5 16a8 8 0 0 1 8-8" stroke="#0FB678" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+              <circle cx="8" cy="15" r="2.4" fill="#0E1422"/>
+            </svg>
+          </span>
+          <span class="b-txt">
+            <span class="b-name">tpay<b>.</b></span>
+            <span class="b-sub">internet services</span>
+          </span>
+        </a>
+        <p>El kit TPV Android para supermercados y comercio, de tpay internet services. Cobra con tarjeta sin alquilar un datáfono.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Producto</h5>
+        <a href="#como">Cómo funciona</a>
+        <a href="#kit">El kit</a>
+        <a href="#specs">Ficha técnica</a>
+        <a href="#precios">Precios</a>
+      </div>
+      <div class="foot-col">
+        <h5>Ayuda</h5>
+        <a href="#faq">Preguntas frecuentes</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#">Soporte técnico</a>
+        <a href="#">Guía de instalación</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="#">Aviso legal</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Garantía</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 tpay internet services. Todos los derechos reservados.</span>
+      <span>Hecho en Andalucía · Envíos a toda España</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Pause the hero demo when offscreen to keep it light; respect reduced motion.
+  const demo = document.getElementById('demo');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (demo && !reduce) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => e.target.classList.toggle('run', e.isIntersecting));
+    }, { threshold: 0.2 });
+    io.observe(demo);
+  }
+</script>
+</body>
+</html>
